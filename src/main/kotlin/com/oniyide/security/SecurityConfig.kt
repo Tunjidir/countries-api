@@ -1,6 +1,7 @@
 package com.oniyide.security
 
 import com.oniyide.business.control.service.AuthService
+import com.oniyide.business.control.service.PersonalizedUserDetails
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,13 +18,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig : WebSecurityConfigurerAdapter(){
+class SecurityConfig(
+  @Autowired private val personalizedUserDetails: PersonalizedUserDetails
+) : WebSecurityConfigurerAdapter(){
   
-  @Autowired
-  private lateinit var authService: AuthService
-  
-  @Autowired
-  private lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
   
   @Bean
   fun passwordEncoder(): BCryptPasswordEncoder {
@@ -56,7 +54,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter(){
   
   @Throws(Exception::class)
   override fun configure(auth: AuthenticationManagerBuilder) {
-    auth.userDetailsService(authService).passwordEncoder(bCryptPasswordEncoder)
+    auth.userDetailsService(personalizedUserDetails).passwordEncoder(passwordEncoder())
   }
   
   @Bean

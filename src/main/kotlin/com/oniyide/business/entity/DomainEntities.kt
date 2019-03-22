@@ -25,7 +25,6 @@ class UserAccount(
   @Column(name = "lastname", nullable = false)
   val lastName: String,
   
-  @field:NotBlank
   @Column(name = "date_of_birth", nullable = false)
   val dateOfBirth: LocalDateTime,
   
