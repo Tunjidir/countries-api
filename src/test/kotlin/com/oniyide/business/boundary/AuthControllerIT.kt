@@ -19,16 +19,7 @@ import java.time.LocalDateTime
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-class AuthControllerIT() {
-    
-    @Autowired
-    private lateinit var mockMvc: MockMvc
-    
-    @Autowired
-    private lateinit var userRepository: UserRepository
-    
-    @Autowired
-    private lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
+class AuthControllerIT(@Autowired private val mockMvc: MockMvc) {
     
     @Test
     fun `signup should register user`() {

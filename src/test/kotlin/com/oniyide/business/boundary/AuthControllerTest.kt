@@ -3,6 +3,7 @@ package com.oniyide.business.boundary
 import com.nhaarman.mockito_kotlin.doThrow
 import com.nhaarman.mockito_kotlin.given
 import com.oniyide.business.control.service.AuthService
+import com.oniyide.business.control.service.PersonalizedUserDetails
 import com.oniyide.business.entity.LoginRequest
 import com.oniyide.business.entity.SignUpRequest
 import com.oniyide.business.entity.toUser
@@ -32,6 +33,9 @@ class AuthControllerTest(@Autowired private val mockMvc: MockMvc, @Autowired pri
   @MockBean
   private lateinit var authService: AuthService
   
+  @MockBean
+  private lateinit var userDetails: PersonalizedUserDetails
+  
   @Test
   fun `signup request should return a signed up user`() {
     val signUpRequest = SignUpRequest("olatunji", "oniyide", LocalDateTime.now(), "olatunji4you@gmail.com", "Tunjidir", "Billy")
@@ -60,7 +64,7 @@ class AuthControllerTest(@Autowired private val mockMvc: MockMvc, @Autowired pri
     ).andExpect(status().isOk)
     
     val login = LoginRequest("Tunjidir", "billy")
-    given(authService.loadUserByUsername("Tunjidir")).willReturn(User("Tunjidir", passwordEncoder.encode("billy"), emptyList<GrantedAuthority>()))
+    given(userDetails.loadUserByUsername("Tunjidir")).willReturn(User("Tunjidir", passwordEncoder.encode("billy"), emptyList<GrantedAuthority>()))
     
     mockMvc.perform(
       post("/login")
@@ -73,7 +77,7 @@ class AuthControllerTest(@Autowired private val mockMvc: MockMvc, @Autowired pri
   @Test
   fun `invalid details should not login`() {
     val loginRequest = LoginRequest("invalid", "invalid")
-    given(authService.loadUserByUsername("invalid")).willThrow(UsernameNotFoundException::class.java)
+    given(userDetails.loadUserByUsername("invalid")).willThrow(UsernameNotFoundException::class.java)
     
     mockMvc.perform(
       post("/login")
