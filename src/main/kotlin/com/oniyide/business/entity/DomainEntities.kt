@@ -100,8 +100,8 @@ class Country (
   
   @field:NotBlank
   val created: Instant = Instant.now()
-  
-  override fun equals(other: Any?) : Boolean {
+
+  override fun equals(other: Any?): Boolean {
     if(this === other) return true
     if(this.javaClass != other?.javaClass) return false
     

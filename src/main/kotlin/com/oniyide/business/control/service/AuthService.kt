@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 
 interface AuthService {
   
-  fun registerUser(signUpRequest: SignUpRequest) : UserAccount
+  fun registerUser(signUpRequest: SignUpRequest): UserAccount
 }
 
 @Service

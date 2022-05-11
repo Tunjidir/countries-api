@@ -13,7 +13,7 @@ import javax.transaction.Transactional
 @Repository
 interface UserRepository : JpaRepository<UserAccount, Long> {
   
-  fun findByUsernameOrEmail(username: String, email: String) : Optional<UserAccount>
+  fun findByUsernameOrEmail(username: String, email: String) : UserAccount?
 }
 
 @Repository

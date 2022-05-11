@@ -1,7 +1,6 @@
 package com.oniyide.security
 
 import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.algorithms.Algorithm.HMAC512
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.oniyide.business.entity.LoginRequest
@@ -50,7 +49,7 @@ class JWTAuthenticationFilter (
     val token = JWT.create()
       .withSubject((auth.principal as User).username)
       .withExpiresAt(Date(System.currentTimeMillis() + EXPIRATION_TIME))
-      .sign(Algorithm.HMAC512(SECRET.toByteArray()))
+      .sign(HMAC512(SECRET.toByteArray()))
     
     response.addHeader(HEADER_STRING, TOKEN_PREFIX + token)
   }
